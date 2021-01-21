@@ -1,0 +1,371 @@
+body {
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#sidebar-toggler {
+    all: unset;
+    display: inline;
+    cursor: pointer;
+    padding: 0 1em;
+}
+
+.mobile-header {
+    position: fixed;
+    z-index: 100;
+    display: none;
+    padding: 0.5em;
+    height: 2.5em;
+    width: 100vw;
+    align-items: center;
+    background-color: #C0F7FF;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.2);
+
+    button {
+        img {
+            width: 1.5em;
+        }
+    }
+
+    a {
+        img {
+            height: 2.5em;
+        }
+    }
+}
+
+nav {
+    background-color: #C0F7FF;
+
+    a {
+        img {
+            width: 18em;
+            padding: 1em;
+        }
+    }
+
+    h1 {
+        padding-left: 1em;
+    }
+}
+
+.sidebar {
+    position: fixed;
+    z-index: 10;
+    width: 20em;
+    height: 100vh;
+    overflow: auto;
+    font-family: segoeui;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+    p {
+        margin: 0;
+        padding: 1em;
+        font-size: 1.2em;
+        font-size: 1.2em;
+        text-align: center;
+        color: #626262;
+        font-weight: bold;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        li {
+            a {
+                display: block;
+                color: #3b3b3e;
+                text-decoration: none;
+                line-height: 1em;
+                padding: 1.2em 0;
+                padding-left: 3em;
+                font-size: 1.2em;
+            }
+
+            .active {
+                background-color: white;
+            }
+        }
+    }
+}
+
+.error {
+    visibility: hidden;
+
+    &.show {
+        visibility: visible;
+        color: white;
+        background-color: red;
+    }
+}
+
+main {
+    margin-left: 20em;
+    padding: 0 3em;
+
+    .logo-institusi {
+        text-align: right;
+        padding: 1em;
+        height: 4em;
+
+        img {
+            height: 100%;
+        }
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 1em;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 15px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
+
+        p {
+            font-size: 1.4em;
+        }
+
+        br {
+            margin: 2em;
+        }
+
+        a {
+            all: unset;
+            display: block;
+            margin: 0 auto;
+            padding: 1em;
+            width: 4em;
+            font-size: 1.4em;
+            border-radius: 10px;
+            background-color: white;
+            cursor: pointer;
+        }
+    }
+}
+
+.row {
+    justify-content: center;
+}
+
+.boiler {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.level-indicator {
+    .level {
+        display: flex;
+        margin: 1em;
+        align-items: center;
+
+        i {
+            display: inline-block;
+            width: 3.75em;
+            height: 3.75em;
+            border: 10px solid black;
+            background-color: red;
+        }
+
+        span {
+            padding-left: 1em;
+            font-size: 1.3em;
+        }
+
+        &.on {
+            i {
+                background-color: green;
+            }
+        }
+    }
+
+    &.level-hh {
+        .hh {
+            i {
+                background-color: green;
+            }
+        }
+
+        .h {
+            i {
+                background-color: green;
+            }
+        }
+
+        .l {
+            i {
+                background-color: green;
+            }
+        }
+
+        .ll {
+            i {
+                background-color: green;
+            }
+        }
+    }
+
+    &.level-h {
+        .hh {
+            i {
+                background-color: red;
+            }
+        }
+
+        .h {
+            i {
+                background-color: green;
+            }
+        }
+
+        .l {
+            i {
+                background-color: green;
+            }
+        }
+
+        .ll {
+            i {
+                background-color: green;
+            }
+        }
+    }
+
+    &.level-l {
+        .hh {
+            i {
+                background-color: red;
+            }
+        }
+
+        .h {
+            i {
+                background-color: red;
+            }
+        }
+
+        .l {
+            i {
+                background-color: green;
+            }
+        }
+
+        .ll {
+            i {
+                background-color: green;
+            }
+        }
+    }
+
+    &.level-ll {
+        .hh {
+            i {
+                background-color: red;
+            }
+        }
+
+        .h {
+            i {
+                background-color: red;
+            }
+        }
+
+        .l {
+            i {
+                background-color: red;
+            }
+        }
+
+        .ll {
+            i {
+                background-color: green;
+            }
+        }
+    }
+}
+
+.pump-control {
+    width: 5em;
+    margin: 0 auto;
+    padding: 5px;
+    border: 1px solid black;
+
+    button {
+        all: unset;
+        cursor: pointer;
+        display: block;
+        margin: 0.2em auto;
+        height: 3em;
+        width: 5em;
+        box-shadow: 2px 2px 4px #333;
+        transition: box-shadow cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
+
+        &:hover {
+            box-shadow: 0px 0px 2px #333;
+        }
+    }
+
+    span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 3em;
+    }
+
+    &.pump-on {
+        .on {
+            background-color: green;
+            color: white;
+        }
+    }
+
+    &.pump-off {
+        .off {
+            background-color: red;
+            color: white;
+        }
+    }
+}
+
+#chart {
+    width: 100%;
+    height: 30em;
+}
+
+#linechart_material {
+    width: 100%;
+    height: 28em;
+}
+
+.tablehistory {
+    padding: 1em;
+    background-color: white;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+
+        .logo {
+            display: none;
+        }
+
+        &.show {
+            transform: translateX(0%);
+        }
+    }
+
+    main {
+        margin-left: 0em;
+        padding: 1em;
+        padding-top: 3em;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+}

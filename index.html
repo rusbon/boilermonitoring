@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOILER</title>
+
+  <!-- Style -->
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/flexboxgrid.min.css">
+  <link rel="stylesheet" href="css/gfonts.css">
+
+  <!-- Script -->
+  <script src="js/firebase-app.js"></script>
+  <script src="js/firebase-database.js"></script>
+
+</head>
+
+<body>
+  <div class="mobile-header">
+    <button id="sidebar-toggler" data-show="0" onclick="sidebarToggle()">
+      <img src="img/bars.svg" width="36px" alt="">
+    </button>
+    <a href="#">
+      <img src="img/logo-wana-1.png" alt="logo-wana">
+    </a>
+  </div>
+
+  <nav id="sidebar" class="sidebar">
+    <a class="logo" href="#">
+      <img src="img/logo-wana-1.png" alt="logo-wana">
+    </a>
+    <p>Monitoring Level Air Boiler</p>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="grafik.php">Grafik</a></li>
+      <li><a href="histori.php">Histori</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="logo-institusi">
+      <img src="img/logo-its.png" alt="">
+      <img src="img/logo-tf.png" alt="">
+      <img src="img/logo-ecs.png" alt="">
+    </div>
+    <div>
+      <div class="card">
+        <div id="errorMessage" class="error">
+          Connection Problem! ,Reconnecting.....
+        </div>
+        <div class="row">
+          <div class="col-lg-4">
+            <p>LEVEL AIR</p>
+            <div id="level" class="level-indicator level-ll">
+              <div class="level hh">
+                <i>&nbsp;</i>
+                <span>HIGH HIGH</span>
+              </div>
+              <div class="level h">
+                <i>&nbsp;</i>
+                <span>HIGH</span>
+              </div>
+              <div class="level l">
+                <i>&nbsp;</i>
+                <span>LOW</span>
+              </div>
+              <div class="level ll">
+                <i>&nbsp;</i>
+                <span>LOW LOW</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 boiler">
+            <img src="img/boiler.png" alt="">
+          </div>
+          <div class="col-lg-4">
+            <p>PUMP CONTROL</p>
+            <div id='pump' class="pump-control">
+              <button onclick="pump_control_off()" class="off">OFF</button>
+              <button onclick="pump_control_on()" class="on">ON</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script -->
+  <script>
+    // Sidebar Button Function
+    function sidebarToggle() {
+      let button = document.getElementById('sidebar-toggler');
+      let sidebar = document.getElementById('sidebar');
+      if (button.dataset.show == 1) {
+        sidebar.classList.remove('show');
+        button.dataset.show = 0;
+      } else {
+        sidebar.classList.add('show');
+        button.dataset.show = 1;
+      }
+    }
+
+    // Set Level State
+    function setLevel(e) {
+      let level = document.querySelector('#level');
+      level.classList.remove(
+        'level-hh',
+        'level-h',
+        'level-l',
+        'level-ll',
+      );
+
+      switch (e) {
+        case 0:
+          level.classList.add('level-ll');
+          break;
+        case 1:
+          level.classList.add('level-l');
+          break;
+        case 2:
+          level.classList.add('level-h');
+          break;
+        case 3:
+          level.classList.add('level-hh');
+          break;
+        default:
+          break;
+      }
+    }
+
+    // Change Pump State
+    function setPump(e) {
+      let pump = document.querySelector('#pump');
+      pump.classList.remove(
+        'pump-on',
+        'pump-off'
+      );
+
+      switch (e) {
+        case 'ON':
+          pump.classList.add('pump-on');
+          break;
+        case 'OFF':
+          pump.classList.add('pump-off');
+          break;
+        default:
+          break;
+      }
+    }
+
+    /// Firebase
+
+    // var firebaseRef = new firebase('http://INSTANCE.firebaseio.com');
+    // firebaseRef.child('.info/connected').on('value', function (connectedSnap) {
+    //   if (connectedSnap.val() === true) {
+    //     console.error('connected!');
+    //   } else {
+    //     console.error('DISconnected!');
+    //   }
+    // });
+
+    //Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyDOmQ08XptkM3NlH8k_3o9P7pjHLAUPmEE",
+      authDomain: "finalprojectar-28391.firebaseapp.com",
+      databaseURL: "https://finalprojectar-28391.firebaseio.com",
+      projectId: "finalprojectar-28391",
+      storageBucket: "finalprojectar-28391.appspot.com",
+      messagingSenderId: "534910582402",
+      appId: "1:534910582402:web:6069fe7b7dcb0b9bd33e9b",
+      measurementId: "G-PWYP7ZSWT1"
+    };
+
+    // Firebase Initiation
+    firebase.initializeApp(firebaseConfig);
+
+    // Get a reference to the database service
+    let database = firebase.database();
+    let fLevel = database.ref('Sensor/Level');
+    let fPump = database.ref('Output/Pump');
+
+    // Showing error message when connection lost
+    let error = document.querySelector('#errorMessage');
+    database.ref('.info/connected').on('value', function (connectedSnap) {
+      if (connectedSnap.val() === true) {
+        error.classList.remove('show');
+      } else {
+        error.classList.add('show');
+      }
+    });
+
+    // set Event Listener on data Change
+    fLevel.on('value', (snapshot) => {
+      setLevel(snapshot.val());
+    });
+
+    fPump.on('value', (snapshot) => {
+      setPump(snapshot.val());
+    });
+
+    let pump_control_off = function () {
+      database.ref('Output/Pump').set('OFF');
+    }
+
+    let pump_control_on = function () {
+      database.ref('Output/Pump').set('ON');
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOILER</title>
+
+  <!-- Style -->
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/flexboxgrid.min.css">
+  <link rel="stylesheet" href="css/gfonts.css">
+</head>
+
+<body>
+  <div class="mobile-header">
+    <button id="sidebar-toggler" data-show="0" onclick="sidebarToggle()">
+      <img src="img/bars.svg" width="36px" alt="">
+    </button>
+    <a href="#">
+      <img src="img/logo-wana-1.png" alt="logo-wana">
+    </a>
+  </div>
+
+  <nav id="sidebar" class="sidebar">
+    <a class="logo" href="#">
+      <img src="img/logo-wana-1.png" alt="logo-wana">
+    </a>
+    <p>Monitoring Level Air Boiler</p>
+    <ul>
+      <li>
+        <a href="" class="active">Home</a>
+      </li>
+      <li><a href="#">Data</a></li>
+      <li><a href="">Grafik</a></li>
+      <li><a href="">Histori</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <div class="row card">
+      <div class="col-md-4 blog-inside"></div>
+      <div class="col-md-4 blog-inside">
+        <a class="blog-card" href="#">
+          <article style="line-height: 1;">
+            <div class="blog-card-title">
+              <center>Data terkini</center>
+            </div>
+            <div class="blog-card-title">
+              <center>Volume air</center>
+            </div>
+            <span class="dot">
+              <center style="padding-top: 55px; text-decoration: none; color: black;">Data</center>
+            </span>
+            <div class="blog-card-title">
+              <center>Data tanggal</center>
+            </div>
+            <div style="text-align: center;" class="blog-card-content">Data volume air berdasarkan volume penuh sebesar
+              14</div>
+          </article>
+        </a>
+      </div>
+      <div class="col-md-4 blog-inside"></div>
+    </div>
+  </main>
+
+  <!-- Script -->
+  <script>
+    function sidebarToggle() {
+      let button = document.getElementById('sidebar-toggler');
+      let sidebar = document.getElementById('sidebar');
+      if (button.dataset.show == 1) {
+        sidebar.classList.remove('show');
+        button.dataset.show = 0;
+      } else {
+        sidebar.classList.add('show');
+        button.dataset.show = 1;
+      }
+    }
+  </script>
+
+</body>
+
+</html>

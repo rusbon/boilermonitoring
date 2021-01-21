@@ -1,0 +1,17 @@
+{
+  "name": "kiki",
+  "version": "1.0.0",
+  "description": "",
+  "main": "realtime_database_listener.js",
+  "dependencies": {
+    "firebase": "^8.2.3",
+    "mysql": "^2.18.1",
+    "ws": "^7.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
