@@ -115,10 +115,9 @@ if ($result->num_rows > 0) {
         },
         vAxis:{
           ticks:[
-            {v:0, f:'LOW LOW'},
-            {v:1, f:'LOW'},
-            {v:2, f:'HIGH'},
-            {v:3, f:'HIGH HIGH'}
+            {v:2, f:'ALARM'},
+            {v:3, f:'LOW'},
+            {v:4, f:'HIGH'},
           ]
         }
       };
@@ -138,12 +137,16 @@ if ($result->num_rows > 0) {
   </script>
 
   <script>
+    let error = document.querySelector('#errorMessage');
+
     function socketConnect(){
       // Create WebSocket connection.
       const socket = new WebSocket('ws://localhost:8088');
       console.log('connected');
+      error.classList.remove('show');
 
       socket.onclose = function(e) {
+        error.classList.add('show');
         console.log('Socket is closed. Reconnect will be attempted in 2 second.', e.reason);
         setTimeout(function() {
           socketConnect();
