@@ -7,14 +7,14 @@ $result = $conn->query($sql);
 function level_int_to_string($level)
 {
     switch ($level) {
-        case 0:
-            return 'LOW LOW';
-        case 1:
-            return 'LOW';
         case 2:
-            return 'HIGH';
+            return 'ALARM';
         case 3:
-            return 'HIGH HIGH';
+            return 'LOW';
+        case 4:
+            return 'HIGH';
+        default:
+            return 'UNKNOWN';
     }
 }
 

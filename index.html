@@ -51,25 +51,27 @@
         <div id="errorMessage" class="error">
           Connection Problem! ,Reconnecting.....
         </div>
+        <div>
+          <div id='boilerConnection' class="boiler-connection disconnected">
+            <p>Boiler Connection</p>
+            <span>&nbsp;</span>
+          </div>
+        </div>
         <div class="row">
           <div class="col-lg-4">
             <p>LEVEL AIR</p>
-            <div id="level" class="level-indicator level-ll">
-              <div class="level hh">
-                <i>&nbsp;</i>
-                <span>HIGH HIGH</span>
-              </div>
-              <div class="level h">
+            <div id="level" class="level-indicator level-alarm">
+              <div class="level high">
                 <i>&nbsp;</i>
                 <span>HIGH</span>
               </div>
-              <div class="level l">
+              <div class="level low">
                 <i>&nbsp;</i>
                 <span>LOW</span>
               </div>
-              <div class="level ll">
+              <div class="level alarm">
                 <i>&nbsp;</i>
-                <span>LOW LOW</span>
+                <span>ALARM</span>
               </div>
             </div>
           </div>
@@ -77,8 +79,16 @@
             <img src="img/boiler.png" alt="">
           </div>
           <div class="col-lg-4">
-            <p>PUMP CONTROL</p>
+            <div id='control' class="control auto">
+              <p>KONTROL</p>
+              <span class="manual">M</span>
+              <span class="auto">A</span>
+              <div class="indicator-auto">AUTO</div>
+              <div class="indicator-manual">MANUAL</div>
+            </div>
+
             <div id='pump' class="pump-control">
+              <p>PUMP CONTROL</p>
               <button onclick="pump_control_off()" class="off">OFF</button>
               <button onclick="pump_control_on()" class="on">ON</button>
             </div>
@@ -90,6 +100,8 @@
 
   <!-- Script -->
   <script>
+    let boilerConnectionWatchdog = 0;
+
     // Sidebar Button Function
     function sidebarToggle() {
       let button = document.getElementById('sidebar-toggler');
@@ -107,24 +119,40 @@
     function setLevel(e) {
       let level = document.querySelector('#level');
       level.classList.remove(
-        'level-hh',
-        'level-h',
-        'level-l',
-        'level-ll',
+        'level-high',
+        'level-low',
+        'level-alarm'
       );
 
       switch (e) {
-        case 0:
-          level.classList.add('level-ll');
-          break;
-        case 1:
-          level.classList.add('level-l');
-          break;
         case 2:
-          level.classList.add('level-h');
+          level.classList.add('level-alarm');
           break;
         case 3:
-          level.classList.add('level-hh');
+          level.classList.add('level-low');
+          break;
+        case 4:
+          level.classList.add('level-high');
+          break;
+        default:
+          break;
+      }
+    }
+
+    // Change Control State
+    function setControl(e) {
+      let control = document.querySelector('#control');
+      control.classList.remove(
+        'auto',
+        'manual'
+      );
+
+      switch (e) {
+        case 'ON':
+          control.classList.add('auto');
+          break;
+        case 'OFF':
+          control.classList.add('manual');
           break;
         default:
           break;
@@ -151,16 +179,27 @@
       }
     }
 
-    /// Firebase
+    function boilerConnectionWatchdogTimer() {
+      boilerConnectionWatchdog += 1;
+      if (boilerConnectionWatchdog > 5) {
+        let boilerConnection = document.querySelector('#boilerConnection');
+        boilerConnection.classList.remove(
+          'connected',
+          'disconnected'
+        );
+        boilerConnection.classList.add('disconnected');
+      }
+      else {
+        boilerConnection.classList.remove(
+          'connected',
+          'disconnected'
+        );
+        boilerConnection.classList.add('connected');
+      }
+    }
+    setInterval(boilerConnectionWatchdogTimer, 1000);
 
-    // var firebaseRef = new firebase('http://INSTANCE.firebaseio.com');
-    // firebaseRef.child('.info/connected').on('value', function (connectedSnap) {
-    //   if (connectedSnap.val() === true) {
-    //     console.error('connected!');
-    //   } else {
-    //     console.error('DISconnected!');
-    //   }
-    // });
+    /// Firebase
 
     //Firebase Config
     const firebaseConfig = {
@@ -180,7 +219,9 @@
     // Get a reference to the database service
     let database = firebase.database();
     let fLevel = database.ref('Sensor/Level');
+    let fControl = database.ref('Output/Auto');
     let fPump = database.ref('Output/Pump');
+    let fKoneksi = database.ref('Safety/Koneksi');
 
     // Showing error message when connection lost
     let error = document.querySelector('#errorMessage');
@@ -197,17 +238,25 @@
       setLevel(snapshot.val());
     });
 
+    fControl.on('value', (snapshot) => {
+      setControl(snapshot.val());
+    })
+
     fPump.on('value', (snapshot) => {
       setPump(snapshot.val());
     });
 
-    let pump_control_off = function () {
-      database.ref('Output/Pump').set('OFF');
-    }
+    fKoneksi.on('value', (snapshot) => {
+      boilerConnectionWatchdog = 0;
+    });
 
-    let pump_control_on = function () {
-      database.ref('Output/Pump').set('ON');
-    }
+    // let pump_control_off = function () {
+    //   database.ref('Output/Pump').set('OFF');
+    // }
+
+    // let pump_control_on = function () {
+    //   database.ref('Output/Pump').set('ON');
+    // }
   </script>
 
 </body>

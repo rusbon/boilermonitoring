@@ -124,6 +124,7 @@ main {
         box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32);
 
         p {
+            margin: 0;
             font-size: 1.4em;
         }
 
@@ -141,6 +142,31 @@ main {
             border-radius: 10px;
             background-color: white;
             cursor: pointer;
+        }
+    }
+}
+
+.boiler-connection{
+    text-align: right;
+    p{
+        display: inline-block;
+    }
+    span{
+        display: inline-block;
+        padding: 1em;
+        margin: 0 1em;
+        width: 1em;
+        height: 1em;
+        border-radius: 2em;
+    }
+    &.connected{
+        span{
+            background-color: green;
+        }
+    }
+    &.disconnected{
+        span{
+            background-color: red;
         }
     }
 }
@@ -181,104 +207,60 @@ main {
         }
     }
 
-    &.level-hh {
-        .hh {
+    &.level-high {
+        .high {
             i {
                 background-color: green;
             }
         }
 
-        .h {
+        .low {
             i {
                 background-color: green;
             }
         }
 
-        .l {
-            i {
-                background-color: green;
-            }
-        }
-
-        .ll {
+        .alarm {
             i {
                 background-color: green;
             }
         }
     }
 
-    &.level-h {
-        .hh {
+    &.level-low {
+        .high {
             i {
                 background-color: red;
             }
         }
 
-        .h {
+        .low {
             i {
                 background-color: green;
             }
         }
 
-        .l {
-            i {
-                background-color: green;
-            }
-        }
-
-        .ll {
+        .alarm {
             i {
                 background-color: green;
             }
         }
     }
 
-    &.level-l {
-        .hh {
+    &.level-alarm {
+        .high {
             i {
                 background-color: red;
             }
         }
 
-        .h {
+        .low {
             i {
                 background-color: red;
             }
         }
 
-        .l {
-            i {
-                background-color: green;
-            }
-        }
-
-        .ll {
-            i {
-                background-color: green;
-            }
-        }
-    }
-
-    &.level-ll {
-        .hh {
-            i {
-                background-color: red;
-            }
-        }
-
-        .h {
-            i {
-                background-color: red;
-            }
-        }
-
-        .l {
-            i {
-                background-color: red;
-            }
-        }
-
-        .ll {
+        .alarm {
             i {
                 background-color: green;
             }
@@ -286,9 +268,54 @@ main {
     }
 }
 
+.control{
+    border: 1px solid black;
+    padding: 1em;
+    margin: 1em;
+    span{
+        display: inline-block;
+        padding: 1em 2em;
+        margin: 0.1em 1em;
+        cursor: default;
+        border: 1px solid #aaa;
+        box-shadow: 0px 0px 4px #333;
+    }
+    div{
+        display: none;
+        visibility: hidden;
+        padding: 1em 1em;
+        margin: 0.5em auto;
+        width: 11em;
+        color: white;
+    }
+
+    &.auto{
+        .auto{
+            background-color: green;
+            color: white;
+        }
+        .indicator-auto{
+            display: block;
+            visibility: visible;
+            background-color: green;
+        }
+    }
+
+    &.manual{
+        .manual{
+            background-color: red;
+            color: white;
+        }
+        .indicator-manual{
+            display: block;
+            visibility: visible;
+            background-color: red;
+        }
+    }
+}
+
 .pump-control {
-    width: 5em;
-    margin: 0 auto;
+    margin: 1em;
     padding: 5px;
     border: 1px solid black;
 
@@ -299,6 +326,7 @@ main {
         margin: 0.2em auto;
         height: 3em;
         width: 5em;
+        border: 1px solid #aaa;
         box-shadow: 2px 2px 4px #333;
         transition: box-shadow cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
 

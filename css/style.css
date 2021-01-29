@@ -86,6 +86,7 @@ main {
     border-radius: 15px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.32); }
     main .card p {
+      margin: 0;
       font-size: 1.4em; }
     main .card br {
       margin: 2em; }
@@ -99,6 +100,22 @@ main {
       border-radius: 10px;
       background-color: white;
       cursor: pointer; }
+
+.boiler-connection {
+  text-align: right; }
+  .boiler-connection p {
+    display: inline-block; }
+  .boiler-connection span {
+    display: inline-block;
+    padding: 1em;
+    margin: 0 1em;
+    width: 1em;
+    height: 1em;
+    border-radius: 2em; }
+  .boiler-connection.connected span {
+    background-color: green; }
+  .boiler-connection.disconnected span {
+    background-color: red; }
 
 .row {
   justify-content: center; }
@@ -123,42 +140,60 @@ main {
     font-size: 1.3em; }
   .level-indicator .level.on i {
     background-color: green; }
-.level-indicator.level-hh .hh i {
+.level-indicator.level-high .high i {
   background-color: green; }
-.level-indicator.level-hh .h i {
+.level-indicator.level-high .low i {
   background-color: green; }
-.level-indicator.level-hh .l i {
+.level-indicator.level-high .alarm i {
   background-color: green; }
-.level-indicator.level-hh .ll i {
-  background-color: green; }
-.level-indicator.level-h .hh i {
+.level-indicator.level-low .high i {
   background-color: red; }
-.level-indicator.level-h .h i {
+.level-indicator.level-low .low i {
   background-color: green; }
-.level-indicator.level-h .l i {
+.level-indicator.level-low .alarm i {
   background-color: green; }
-.level-indicator.level-h .ll i {
-  background-color: green; }
-.level-indicator.level-l .hh i {
+.level-indicator.level-alarm .high i {
   background-color: red; }
-.level-indicator.level-l .h i {
+.level-indicator.level-alarm .low i {
   background-color: red; }
-.level-indicator.level-l .l i {
-  background-color: green; }
-.level-indicator.level-l .ll i {
-  background-color: green; }
-.level-indicator.level-ll .hh i {
-  background-color: red; }
-.level-indicator.level-ll .h i {
-  background-color: red; }
-.level-indicator.level-ll .l i {
-  background-color: red; }
-.level-indicator.level-ll .ll i {
+.level-indicator.level-alarm .alarm i {
   background-color: green; }
 
+.control {
+  border: 1px solid black;
+  padding: 1em;
+  margin: 1em; }
+  .control span {
+    display: inline-block;
+    padding: 1em 2em;
+    margin: 0.1em 1em;
+    cursor: default;
+    border: 1px solid #aaa;
+    box-shadow: 0px 0px 4px #333; }
+  .control div {
+    display: none;
+    visibility: hidden;
+    padding: 1em 1em;
+    margin: 0.5em auto;
+    width: 11em;
+    color: white; }
+  .control.auto .auto {
+    background-color: green;
+    color: white; }
+  .control.auto .indicator-auto {
+    display: block;
+    visibility: visible;
+    background-color: green; }
+  .control.manual .manual {
+    background-color: red;
+    color: white; }
+  .control.manual .indicator-manual {
+    display: block;
+    visibility: visible;
+    background-color: red; }
+
 .pump-control {
-  width: 5em;
-  margin: 0 auto;
+  margin: 1em;
   padding: 5px;
   border: 1px solid black; }
   .pump-control button {
@@ -168,6 +203,7 @@ main {
     margin: 0.2em auto;
     height: 3em;
     width: 5em;
+    border: 1px solid #aaa;
     box-shadow: 2px 2px 4px #333;
     transition: box-shadow cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s; }
     .pump-control button:hover {
