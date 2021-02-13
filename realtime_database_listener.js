@@ -6,8 +6,10 @@ const WebSocket = require('ws');
 // State Variable
 let level;
 let pump;
+let auto;
 let dataPumpRetrieved = false;
 let dataLevelRetrieved = false;
+let dataAutoRetrieved = false;
 
 // MySQL Config
 var db = mysql.createConnection({
@@ -18,7 +20,7 @@ var db = mysql.createConnection({
 });
 
 // Connecting MySQL
-db.connect(function(err) {
+db.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
 });
@@ -46,40 +48,54 @@ var database = firebase.database();
 
 var fLevel = database.ref('Sensor/Level');
 var fPump = database.ref('Output/Pump');
+var fAuto = database.ref('Output/Auto');
 
 
 
 // set Event Listener on data Change
-fPump.on('value', (snapshot) =>{
+fPump.on('value', (snapshot) => {
   pump = snapshot.val();
   console.log(pump);
-  if(dataLevelRetrieved){
+  if (dataLevelRetrieved && dataAutoRetrieved) {
     storeSQL();
   }
 
   dataPumpRetrieved = true;
 });
 
-fLevel.on('value', (snapshot) =>{
+fLevel.on('value', (snapshot) => {
   level = snapshot.val();
   console.log(level);
-  if(dataPumpRetrieved){
+  if (dataPumpRetrieved && dataAutoRetrieved) {
     storeSQL();
   }
 
   dataLevelRetrieved = true;
 });
 
+fAuto.on('value', (snapshot) => {
+  auto = snapshot.val();
+  console.log(auto);
+  if (dataLevelRetrieved && dataPumpRetrieved) {
+    storeSQL();
+  }
+
+  dataAutoRetrieved = true;
+});
+
 // Logging Data every 1 minute
-let eventTimer = function(){
+let eventTimer = function () {
   fPump.once('value').then((snapshot) => {
     pump = snapshot.val();
   });
   fLevel.once('value').then((snapshot) => {
     level = snapshot.val();
   });
+  fAuto.once('value').then((snapshot) => {
+    auto = snapshot.val();
+  });
 
-  if(dataPumpRetrieved && dataLevelRetrieved){
+  if (dataPumpRetrieved && dataLevelRetrieved && dataLevelRetrieved) {
     storeSQL();
   }
 
@@ -98,9 +114,9 @@ let eventTimer = function(){
 }
 
 // SQL Query Inserting data to database
-var storeSQL = function(){
-  var sql = "INSERT INTO `log` (`level`,  `pump_control`, `date`, `time`) VALUES ("+ level +", '"+ pump +"', NOW(), NOW())";
-  db.query(sql, function (err, result){
+var storeSQL = function () {
+  var sql = "INSERT INTO `log` (`level`,  `pump_control`, `auto`, `date`, `time`) VALUES (" + level + ", '" + pump + "', '" + auto + "', NOW(), NOW())";
+  db.query(sql, function (err, result) {
     if (err) throw err;
     console.log('data inserted');
   })

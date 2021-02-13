@@ -76,6 +76,7 @@ function level_int_to_string($level)
             <th>Waktu</th>
             <th>Level</th>
             <th>Pump Control</th>
+            <th>Auto</th>
           </tr>
         </thead>
         <tbody>
@@ -90,6 +91,7 @@ if ($result->num_rows > 0) {
             <td>" . $row['time'] . "</td>
             <td>" . level_int_to_string($row['level']) . "</td>
             <td>" . $row['pump_control'] . "</td>
+            <td>" . $row['auto'] . "</td>
         </tr>
         ";
     }
