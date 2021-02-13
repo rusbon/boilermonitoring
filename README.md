@@ -12,6 +12,7 @@ CREATE TABLE `log` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`level` TINYINT NOT NULL,
 	`pump_control` VARCHAR(3) NOT NULL,
+	`auto` VARCHAR(3) NOT NULL,
 	`date` DATE NOT NULL,
 	`time` TIME NOT NULL,
 	KEY `date` (`date`) USING BTREE,
